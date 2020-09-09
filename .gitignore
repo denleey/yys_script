@@ -6,3 +6,4 @@ src/__pycache__
 src/ui/__pycache__
 src/main.exe
 docs/*.pdf
+src/screenshot/__pycache__
