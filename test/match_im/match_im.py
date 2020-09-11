@@ -2,13 +2,8 @@
 # -*- coding:utf-8 -*-
 
 # %%
-# import os
-# import sys
-# import random
 from PIL import Image, ImageGrab
-# import cv2
-# import win32gui win32con win32api
-# import numpy as np
+
 
 # %% 初始化日志，方便打印
 import logging
@@ -78,10 +73,6 @@ filepatch = os.path.join(cur_dir, 'screenshot', 'chapter', 'last_invite.png')
 print(filepatch)
 im = Image.open(filepatch)
 
-# im_special = pyautogui.screenshot(region=(x_top + 365, y_top + 568, 30, 30))
-# im_yys = im_special
-# im_special.show()
-
 for i in range(10):
     im_yys = pyautogui.screenshot(region=(x_top, y_top, win_width, win_height))
     if i == 0:
@@ -93,13 +84,3 @@ for i in range(10):
     else:
         print('not found')
     time.sleep(1.5)
-
-# 点击并拖动
-# pyautogui.moveTo(x_top + loc.left - 20, y_top + loc.top + 50, 1)
-# print('移动位置', x_top + loc.left - 20, y_top + loc.top + 50)
-# time.sleep(1)
-# # pyautogui.click(x_top + loc.left + 5, y_top + loc.top + 5, 1, 0, button='left')
-# x_offset = ((x_top + 395) - (x_top + loc.left - 20)) * 1.0
-# y_offset = ((y_top + 290) - (y_top + loc.top + 50)) * 1.0
-# print('拖动位置', x_offset, y_offset)
-# pyautogui.dragRel(x_offset, y_offset, duration=1.5)

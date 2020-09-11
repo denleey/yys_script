@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>match_win</class>
+ <widget class="QMainWindow" name="match_win">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>359</width>
+    <height>460</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>图片匹配工具</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>351</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,0,0,0,8,0">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="1,5">
+       <item>
+        <widget class="QPushButton" name="pbtn_dir">
+         <property name="text">
+          <string>选择文件</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="le_dir">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,5">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>选择窗体:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="le_win">
+         <property name="text">
+          <string>阴阳师-网易游戏</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch=""/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbt_start">
+       <property name="text">
+        <string>开始匹配</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbtn_stop">
+       <property name="text">
+        <string>停止匹配</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTextEdit" name="te_log">
+       <property name="html">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;匹配的日志&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btn_clear">
+       <property name="text">
+        <string>清空内容</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>359</width>
+     <height>23</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pbtn_dir</sender>
+   <signal>clicked()</signal>
+   <receiver>match_win</receiver>
+   <slot>slot_btn_dir_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>29</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>0</x>
+     <y>38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbt_start</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>match_win</receiver>
+   <slot>slot_btn_start_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>335</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>382</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbtn_stop</sender>
+   <signal>clicked()</signal>
+   <receiver>match_win</receiver>
+   <slot>slot_btn_stop_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>340</x>
+     <y>415</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>355</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btn_clear</sender>
+   <signal>clicked()</signal>
+   <receiver>te_log</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>221</x>
+     <y>328</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>223</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbtn_dir</sender>
+   <signal>released()</signal>
+   <receiver>match_win</receiver>
+   <slot>slot_btn_dir_released()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>48</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-2</x>
+     <y>24</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slot_btn_start_clicked()</slot>
+  <slot>slot_btn_stop_clicked()</slot>
+  <slot>slot_btn_dir_clicked()</slot>
+  <slot>slot_btn_dir_released()</slot>
+ </slots>
+</ui>
