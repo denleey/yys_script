@@ -7,3 +7,4 @@ src/ui/__pycache__
 src/main.exe
 docs/*.pdf
 src/screenshot/__pycache__
+test/match_im/__pycache__/

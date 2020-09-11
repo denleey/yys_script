@@ -105,6 +105,7 @@ class AutoGui(QThread):
             ['general', 'absent'],  # 组队界面制度的 + 字标识
             ['general', 'accept'],  # 队员默认接受邀请
             ['general', 'team_fight'],  # 组队时挑战会变得不一样
+            ['general', 'no_attention'] # 新引擎新增加不再提示
         ]
 
     def display_msg(self, msg):
