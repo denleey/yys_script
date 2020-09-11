@@ -2,10 +2,10 @@
 
 block_cipher = None
 
-SETUP_DIR = 'F:\\gitee\\knowledge\\Python\\yys_script\\test\\match_im\\'
+SETUP_DIR = 'F:\\gitee\\knowledge\\yys_script\\test\\match_im\\'
 
 a = Analysis(['match_widget.py', 'matchwin.py'],
-             pathex=['F:\\gitee\\knowledge\\Python\\yys_script\\test\\match_im'],
+             pathex=['F:\\gitee\\knowledge\\yys_script\\test\\match_im'],
              binaries=[],
              datas=[],
              hiddenimports=[],
