@@ -58,6 +58,8 @@ class Config:
                                                        'v2.2.2')
         self.general['attention'] = self.read_option_str(
             'general', 'attention', '').replace(r'\n', '\n')
+        self.general['gitpath'] = self.read_option_str(
+            'general', 'gitpath', '').replace(r'\n', '\n')
 
         self.yuhun['times'] = self.read_option_int('yuhun', 'times', 200)
         self.yuhun['players'] = self.read_option_int('yuhun', 'players', 2)

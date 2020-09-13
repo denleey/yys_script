@@ -350,5 +350,6 @@ class YysWin(QMainWindow):
             self.yysbreak.start()
 
     def show_attention(self, contenet):
-        self.ui.te_attention.setText(contenet + '\n' +
+        self.ui.te_attention.setText(contenet + '\n开源地址：' +
+                                     config.general['gitpath'] + '\n版本信息：' +
                                      config.general['version'])
