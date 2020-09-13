@@ -22,6 +22,7 @@
 
 下载对应的版本信息即可，因为包比较大，所以仅保留最新的5个版本（**当前仅支持windows上使用**）：  
 
+- [v1.0.1](release/yys_script.v1.0.1.zip)
 - [v1.0.0](release/yys_script.v1.0.0.zip)
 
 > 开发人员

@@ -2,7 +2,7 @@
 
 block_cipher = None
 
-SETUP_DIR = 'F:\\gitee\\knowledge\\Python\\yys_script\\'
+SETUP_DIR = 'F:\\gitee\\knowledge\\yys_script\\'
 
 a = Analysis(['src\\main.py',
               'src/autogui.py',
@@ -15,7 +15,7 @@ a = Analysis(['src\\main.py',
               'src/chapter.py',
               'src/yysbreak.py',
               'src/ui/main_widget.py'],
-             pathex=['F:\\gitee\\knowledge\\Python\\yys_script'],
+             pathex=['F:\\gitee\\knowledge\\yys_script'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -34,7 +34,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='main',
+          name='yys_script',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
