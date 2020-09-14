@@ -2,7 +2,9 @@
 
 ## 1.1. 项目说明
 
-因为玩阴阳师比较多，游戏太肝了，经寮友提醒，就有了写一个辅助挂机脚本的想法。说干就干，然后就写了一个初稿。开源之前，其实是已经写了一部分几周后的事情。**阴阳师不仅肝，维护和优化脚本也肝。所以就想着开源出来，一人肝一点，护胆。**  
+因为玩阴阳师比较多，游戏太肝了，经寮友提醒，就有了写一个辅助挂机脚本的想法。说干就干，然后就写了一个初稿。写完就直接开源了，有兴趣可以去看看对应的git仓库，欢迎提出您宝贵的建议，另外针对一些BUG也希望能够提PR帮忙一起维护，一起成长。
+
+程序的使用示例可以参考这个：[**魂土功能使用文档**](https://gitee.com/chike567/yys_script/blob/master/docs/魂土功能使用文档.md)  
 
 开源的期望如下：  
 
@@ -13,8 +15,14 @@
    1. **结界突破**，不能更换阵容，锁定指定位置（旧引擎）
    2. **御灵**
    3. **业原火**，可以用彼岸花，火灵铁鼠 + 4狗粮，或者是速刷阵容
-   4. [**魂土**](docs/魂土功能使用文档.md)，单人刷，两人组队，三人组队，可选队长或者是队员
+   4. **魂土**，[**魂土功能使用文档**](https://gitee.com/chike567/yys_script/blob/master/docs/魂土功能使用文档.md)，单人刷，组队刷
    5. **困28**，单人，组队，这个可以优化的地方还比较多
+   6. **自动升级狗粮**，自动升级狗粮，2星->3星，3星->4星
+   7. **海国活动每天20次**，自动循环打海国活动20次
+
+> 程序主窗体如下图
+
+![主窗体](https://upload-images.jianshu.io/upload_images/8416343-d766904b07ae2524.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)  
 
 ## 1.2. 程序下载
 
@@ -22,8 +30,13 @@
 
 下载对应的版本信息即可，因为包比较大，所以仅保留最新的5个版本（**当前仅支持windows上使用**）：  
 
-- [v1.0.1](release/yys_script.v1.0.1.zip)
-- [v1.0.0](release/yys_script.v1.0.0.zip)
+- [v1.0.2](https://gitee.com/chike567/yys_script/blob/master/release/yys_script.v1.0.2.zip)
+  - 增加自动升级狗粮
+  - 增加海国活动，循环进行每天20次挑战
+- [v1.0.1](https://gitee.com/chike567/yys_script/blob/master/release/yys_script.v1.0.1.zip)
+  - 修复已知BUG，优化图像识别速度
+- [v1.0.0](https://gitee.com/chike567/yys_script/blob/master/release/yys_script.v1.0.0.zip)
+  - 支持结界突破，御灵，业原火，魂土，困28
 
 > 开发人员
 
