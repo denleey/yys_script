@@ -3,10 +3,9 @@
 import time
 import sys
 import os
-import threading
 import datetime
 from PyQt5 import QtGui
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtGui import QPixmap, QIcon
 
@@ -24,6 +23,7 @@ from yuling import Yuling
 from chapter import Chapter
 from chapter_captain import ChapterCaptain
 from yysbreak import YysBreak
+from upgrade_fodder import Upgrade
 import images
 import config
 
@@ -50,6 +50,10 @@ class YysWin(QMainWindow):
 
         # 绑定信号和槽
         self.ui.pbt_autocheck.clicked.connect(self.btn_autocheck_clicked)
+
+        # 功能选项
+        yys_funcs = ["御魂", "困28", "御灵", "业原火", "结界突破", '升级狗粮']
+        self.set_ui_cmbox(self.ui.cb_fuctions, yys_funcs)
 
         # self.pbt_start.clicked.connect(yys_win.btn_start_clicked)
         # self.pushButton.clicked.connect(yys_win.btn_stop_clicked)
@@ -84,58 +88,56 @@ class YysWin(QMainWindow):
         self.ui.pte_msg.clear()
 
     def set_ui_cmbox(self, cb, lines):
-        # type: combox, [str]
+        '''给一个具体的combox控件添加显示项目'''
         cb.clear()
         cb.addItems(lines)
 
+    def set_comboxes(self, titles: list):
+        '''通过列表来设置参数'''
+        comboxes = [
+            self.ui.cb_p1, self.ui.cb_p2, self.ui.cb_p3, self.ui.cb_p4,
+            self.ui.cb_p5, self.ui.cb_p6
+        ]
+        titles_len = len(titles)
+        for i in range(6):
+            if i < titles_len:
+                self.set_ui_cmbox(comboxes[i], titles[i])
+            else:
+                self.set_ui_cmbox(comboxes[i], ['参数{}'.format(i + 1)])
+
     def cb_functions_index_changed(self):
         self.select_fun = self.ui.cb_fuctions.currentText()
+        titles = []
+        attentions = config.general['attention']
         if self.select_fun == '御魂':
-            self.show_attention(config.yuhun['attention'])
-            # 根据功能调整参数的列表
-            self.set_ui_cmbox(self.ui.cb_p1, ['单人', '双人', '三人'])
-            self.set_ui_cmbox(self.ui.cb_p2, ['队长', '队员'])
-            self.set_ui_cmbox(self.ui.cb_p3, ['可能翻车', '不会翻车'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['挂机次数', '100', '200', '400'])
-            self.set_ui_cmbox(self.ui.cb_p5, ['魂十一', '魂十'])
-            self.set_ui_cmbox(self.ui.cb_p6, ['参数6'])
+            attentions = config.yuhun['attention']
+            titles = [['单人', '双人', '三人'], ['队长', '队员'], ['可能翻车', '不会翻车'],
+                      ['挂机次数', '100', '120', '200', '400'], ['魂十一', '魂十']]
         elif self.select_fun == '困28':
-            self.show_attention(config.chapter['attention'])
-            self.set_ui_cmbox(self.ui.cb_p1, ['单人', '双人'])
-            self.set_ui_cmbox(self.ui.cb_p2, ['队长', '队员'])
-            self.set_ui_cmbox(self.ui.cb_p3,
-                              ['挂机次数', '100', '200', '400', '9999'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['谁带输出', '队长', '队员'])
-            self.set_ui_cmbox(self.ui.cb_p5, ['狗粮类型', 'N卡', '白蛋'])
-            self.set_ui_cmbox(self.ui.cb_p6, ['参数6'])
+            attentions = config.chapter['attention']
+            titles = [['单人', '双人'], ['队长', '队员'],
+                      ['挂机次数', '100', '200', '400', '9999'],
+                      ['谁带输出', '队长', '队员'], ['狗粮类型', 'N卡', '白蛋']]
         elif self.select_fun == '御灵':
-            self.show_attention(config.yuling['attention'])
-            self.set_ui_cmbox(self.ui.cb_p1,
-                              ['挑战类型', 'dragon', 'fox', 'leopard', 'phenix'])
-            self.set_ui_cmbox(self.ui.cb_p2, ['层数', '3', '2', '1'])
-            self.set_ui_cmbox(self.ui.cb_p3,
-                              ['挂机次数', '100', '200', '400', '9999'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['狗粮类型', 'N卡', '白蛋'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['参数4'])
-            self.set_ui_cmbox(self.ui.cb_p5, ['参数5'])
-            self.set_ui_cmbox(self.ui.cb_p6, ['参数6'])
+            attentions = config.yuling['attention']
+            titles = [['挑战类型', 'dragon', 'fox', 'leopard', 'phenix'],
+                      ['层数', '3', '2', '1'],
+                      ['挂机次数', '100', '200', '400', '9999']]
         elif self.select_fun == '业原火':
-            self.show_attention(config.yeyuanhuo['attention'])
-            self.set_ui_cmbox(self.ui.cb_p1, ['层数', '3', '2', '1'])
-            self.set_ui_cmbox(self.ui.cb_p2,
-                              ['挂机次数', '100', '200', '400', '9999'])
-            self.set_ui_cmbox(self.ui.cb_p3, ['快速', '花带狗粮'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['狗粮类型', 'N卡', '白蛋'])
-            self.set_ui_cmbox(self.ui.cb_p5, ['参数5'])
-            self.set_ui_cmbox(self.ui.cb_p6, ['参数6'])
+            attentions = config.yeyuanhuo['attention']
+            titles = [['层数', '3', '2', '1'],
+                      ['挂机次数', '100', '200', '400', '9999'], ['快速通关', '花带狗粮'],
+                      ['狗粮类型', 'N卡', '白蛋']]
         elif self.select_fun == '结界突破':
-            self.show_attention(config.yys_break['attention'])
-            self.set_ui_cmbox(self.ui.cb_p1, ['参数1'])
-            self.set_ui_cmbox(self.ui.cb_p2, ['参数2'])
-            self.set_ui_cmbox(self.ui.cb_p3, ['参数3'])
-            self.set_ui_cmbox(self.ui.cb_p4, ['参数4'])
-            self.set_ui_cmbox(self.ui.cb_p5, ['参数5'])
-            self.set_ui_cmbox(self.ui.cb_p6, ['参数6'])
+            attentions = config.yys_break['attention']
+            titles = []
+        elif self.select_fun == '升级狗粮':
+            attentions = config.upgrade['attention']
+            times = ['升级数量']
+            times.extend([str(x * 3) for x in range(1, 21)])
+            titles = [['升星等级', '2->3', '3->4'], times]
+        self.show_attention(attentions)
+        self.set_comboxes(titles)
 
     def get_config_from_param_cb(self):
         p1 = self.ui.cb_p1.currentText()
@@ -168,6 +170,8 @@ class YysWin(QMainWindow):
                 config.yuhun['times'] = 200
             elif p4 == '400':
                 config.yuhun['times'] = 400
+            elif p4 == '120':
+                config.yuhun['times'] = 120
 
             config.yuhun['select_tier'] = 'hun11'
             if p5 == '魂十':
@@ -245,6 +249,16 @@ class YysWin(QMainWindow):
             config.yeyuanhuo['select_type'] = 'fodder'  # p5
             if p4 == 'N卡':
                 config.yeyuanhuo['select_type'] = 'ncard'
+
+        elif self.select_fun == '升级狗粮':
+            config.upgrade['grade'] = 2
+            if p1 == '3->4':
+                config.upgrade['grade'] = 3
+            try:
+                config.upgrade['times'] = int(p2)
+            except Exception as error:
+                config.upgrade['times'] = 9999
+                self.display_msg('设置默认值为：9999， error={0}'.format(error))
 
     def cb_p1_index_changed(self):
         # self.display_msg('cb_p1_index_changed\n')
@@ -348,8 +362,22 @@ class YysWin(QMainWindow):
             self.stop_run.connect(self.yysbreak.stop_run)
             self.has_start = True
             self.yysbreak.start()
+        elif self.select_fun == '升级狗粮':
+            self.display_msg('参数：{0}'.format(config.upgrade.items()))
+            self.upgrade = Upgrade(self)
+            self.upgrade.sendmsg.connect(self.display_msg)
+            self.stop_run.connect(self.upgrade.stop_run)
+            self.has_start = True
+            self.upgrade.start()
 
     def show_attention(self, contenet):
         self.ui.te_attention.setText(contenet + '\n开源地址：' +
                                      config.general['gitpath'] + '\n版本信息：' +
                                      config.general['version'])
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    main_win = YysWin()
+    main_win.show()
+    sys.exit(app.exec_())
