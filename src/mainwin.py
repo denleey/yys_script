@@ -24,6 +24,7 @@ from chapter import Chapter
 from chapter_captain import ChapterCaptain
 from yysbreak import YysBreak
 from upgrade_fodder import Upgrade
+from activity_haiguo import Activity
 import images
 import config
 
@@ -52,7 +53,7 @@ class YysWin(QMainWindow):
         self.ui.pbt_autocheck.clicked.connect(self.btn_autocheck_clicked)
 
         # 功能选项
-        yys_funcs = ["御魂", "困28", "御灵", "业原火", "结界突破", '升级狗粮']
+        yys_funcs = ["御魂", "困28", "御灵", "业原火", "结界突破", '升级狗粮', '海国活动']
         self.set_ui_cmbox(self.ui.cb_fuctions, yys_funcs)
 
         # self.pbt_start.clicked.connect(yys_win.btn_start_clicked)
@@ -136,6 +137,12 @@ class YysWin(QMainWindow):
             times = ['升级数量']
             times.extend([str(x * 3) for x in range(1, 21)])
             titles = [['升星等级', '2->3', '3->4'], times]
+        elif self.select_fun == '海国活动':
+            attentions = config.activity['attention']
+            times = ['挑战次数']
+            times.extend([str(x) for x in range(1, 21)])
+            titles = [times]
+
         self.show_attention(attentions)
         self.set_comboxes(titles)
 
@@ -260,6 +267,13 @@ class YysWin(QMainWindow):
                 config.upgrade['times'] = 9999
                 self.display_msg('设置默认值为：9999， error={0}'.format(error))
 
+        elif self.select_fun == '海国活动':
+            try:
+                config.activity['times'] = int(p2)
+            except Exception as error:
+                config.activity['times'] = 20
+                self.display_msg('设置默认值为：20， error={0}'.format(error))
+
     def cb_p1_index_changed(self):
         # self.display_msg('cb_p1_index_changed\n')
         pass
@@ -323,29 +337,26 @@ class YysWin(QMainWindow):
             return
 
         self.display_msg('启动挂机：{0}'.format(self.select_fun))
+        self.display_msg('参数：{0}'.format(config.upgrade.items()))
         if self.select_fun == '御魂':
-            self.display_msg('参数：{0}'.format(config.yuhun.items()))
             self.yuhun = Yuhun(self, config.yuhun)
             self.yuhun.sendmsg.connect(self.display_msg)
             self.stop_run.connect(self.yuhun.stop_run)
             self.has_start = True
             self.yuhun.start()
         elif self.select_fun == '御灵':
-            self.display_msg('参数：{0}'.format(config.yuling.items()))
             self.yuling = Yuling(self, config.yuling)
             self.yuling.sendmsg.connect(self.display_msg)
             self.stop_run.connect(self.yuling.stop_run)
             self.has_start = True
             self.yuling.start()
         elif self.select_fun == '业原火':
-            self.display_msg('参数：{0}'.format(config.yeyuanhuo.items()))
             self.chi = Chi(self, config.yeyuanhuo)
             self.chi.sendmsg.connect(self.display_msg)
             self.stop_run.connect(self.chi.stop_run)
             self.has_start = True
             self.chi.start()
         elif self.select_fun == '困28':
-            self.display_msg('参数：{0}'.format(config.chapter.items()))
             self.is_captain = config.chapter.get('captain', True)
             if self.is_captain:
                 self.chapter = ChapterCaptain(self, config.chapter)
@@ -356,19 +367,23 @@ class YysWin(QMainWindow):
             self.has_start = True
             self.chapter.start()
         elif self.select_fun == '结界突破':
-            self.display_msg('结界突破不设置参数')
             self.yysbreak = YysBreak(self)
             self.yysbreak.sendmsg.connect(self.display_msg)
             self.stop_run.connect(self.yysbreak.stop_run)
             self.has_start = True
             self.yysbreak.start()
         elif self.select_fun == '升级狗粮':
-            self.display_msg('参数：{0}'.format(config.upgrade.items()))
             self.upgrade = Upgrade(self)
             self.upgrade.sendmsg.connect(self.display_msg)
             self.stop_run.connect(self.upgrade.stop_run)
             self.has_start = True
             self.upgrade.start()
+        elif self.select_fun == '海国活动':
+            self.activity = Activity(self)
+            self.activity.sendmsg.connect(self.display_msg)
+            self.stop_run.connect(self.activity.stop_run)
+            self.has_start = True
+            self.activity.start()
 
     def show_attention(self, contenet):
         self.ui.te_attention.setText(contenet + '\n开源地址：' +

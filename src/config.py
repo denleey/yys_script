@@ -26,6 +26,7 @@ class Config:
         self.chapter = {}
         self.yys_break = {}
         self.upgrade = {}
+        self.activity = {}
         self.init_config()
 
     def read_option_str(self, section, option, default):
@@ -95,6 +96,9 @@ class Config:
         self.upgrade['attention'] = self.read_option_str(
             'upgrade', 'attention', '').replace(r'\n', '\n')
 
+        self.activity['attention'] = self.read_option_str(
+            'activity', 'attention', '').replace(r'\n', '\n')
+
 
 config = Config()
 general = config.general
@@ -104,6 +108,7 @@ yeyuanhuo = config.yeyuanhuo
 yys_break = config.yys_break
 chapter = config.chapter
 upgrade = config.upgrade
+activity = config.activity
 
 if __name__ == '__main__':
     print(general.keys())
