@@ -72,7 +72,7 @@ class Yuhun(AutoGui):
         self.is_captain = self.config.get('captain', True)
         self.players = self.config.get('players', 2)
         self.select_tier = self.config.get('select_tier', 'hun11')
-        self.total_times = self.config.get('total_times', 200)
+        self.total_times = self.config.get('times', 200)
 
         # 将图片打开成图像 ims
         self.pics = yuhun_pics

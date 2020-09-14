@@ -88,6 +88,7 @@ class Chapter(AutoGui):
         self.pics.extend(self.exchange_pics)
         self.pics.extend(self.team_pics)
         self.ims = screenshot.open_image_list(self.pics)
+        self.total_times = self.config.get('times', 200)
 
     def already_in_loop(self):
         for key in stages_loop:
@@ -141,7 +142,6 @@ class Chapter(AutoGui):
         return self.exchange_man_role_by_locs(role_locs, final_locs)
 
     def loop(self):
-        total_times = self.config.get('times', 200)
         cur_loop_times = 0
         last_state = ''
         not_found_times = 0
@@ -150,7 +150,7 @@ class Chapter(AutoGui):
 
         global stages_loop
         check_loop = stages_loop
-        while self.stop is False and cur_loop_times < total_times:
+        while self.stop is False and cur_loop_times < self.total_times:
             found = False
             key = ''
             im_yys = self.screenshot()
@@ -242,7 +242,7 @@ class Chapter(AutoGui):
                 if key == 'victory' and is_boss:
                     cur_loop_times += 1
                     self.display_msg('当前进度：{0}/{1}'.format(
-                        cur_loop_times, total_times))
+                        cur_loop_times, self.total_times))
                     is_boss = False
 
                 random_dis = randint(-10, 10)

@@ -65,6 +65,7 @@ class Chi(AutoGui):
         self.pics.extend(self.basic_pics)
         self.pics.extend(self.exchange_pics)
         self.ims = screenshot.open_image_list(self.pics)
+        self.total_times = self.config.get('times', 200)
 
     def already_in_loop(self):
         for key in stages_loop:
@@ -150,11 +151,10 @@ class Chi(AutoGui):
         return False
 
     def loop(self):
-        total_times = self.config.get('total_times', 200)
         cur_loop_times = 0
         last_state = ''
         not_found_times = 0
-        while self.stop is False and cur_loop_times < total_times:
+        while self.stop is False and cur_loop_times < self.total_times:
             found = False
             key = ''
             im_yys = self.screenshot()
@@ -229,7 +229,7 @@ class Chi(AutoGui):
                 if key == 'victory':
                     cur_loop_times += 1
                     self.display_msg('当前进度：{0}/{1}'.format(
-                        cur_loop_times, total_times))
+                        cur_loop_times, self.total_times))
                 random_dis = randint(-10, 10)
                 last_x = self.x_top + 955 + random_dis
                 last_y = self.y_top + 530 + random_dis

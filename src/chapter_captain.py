@@ -132,6 +132,7 @@ class ChapterCaptain(AutoGui):
         self.pics.extend(self.exchange_pics)
         self.pics.extend(self.team_pics)
         self.ims = screenshot.open_image_list(self.pics)
+        self.total_times = self.config.get('times', 200)
 
     def already_in_loop(self):
         for key in stages_loop:
@@ -239,7 +240,6 @@ class ChapterCaptain(AutoGui):
         return list(set(src) - set(removes))
 
     def loop(self):
-        total_times = self.config.get('times', 200)
         change_loop_times = 0
         last_state = ''
         not_found_times = 0
@@ -248,7 +248,7 @@ class ChapterCaptain(AutoGui):
 
         global stages_loop
         change_loop = []
-        while self.stop is False and change_loop_times < total_times:
+        while self.stop is False and change_loop_times < self.total_times:
             found = False
             key = ''
             im_yys = self.screenshot()
@@ -452,7 +452,7 @@ class ChapterCaptain(AutoGui):
                             change_loop = self.remove_list(
                                 change_loop, team_prepare)
                         self.display_msg('当前进度：{0}/{1}'.format(
-                            change_loop_times, total_times))
+                            change_loop_times, self.total_times))
                     else:
                         change_loop = stages_loop.copy()
                         change_loop = self.remove_list(change_loop,
