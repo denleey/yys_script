@@ -27,12 +27,14 @@ from autogui import AutoGui
     寮挑战结束标示：8个图全部挑战失败
 '''
 
-stages_prepare = ['search', 'break', 'record']
+stages_prepare = ['search', 'break', 'record_person']
 stages_loop = [
     'click_to_continue',
     'no_ticket',
+    'cd',
     'break_fight',
-    'record',
+    'record_person',
+    'record_group',
     'prepare',
     'victory',
     'fail',
@@ -42,7 +44,8 @@ stages_loop = [
 break_pics = [
     ['general', 'click_to_continue'],
     ['break', 'break'],  # 突破界面
-    ['break', 'record'],
+    ['break', 'record_person'],  # 个人突破记录
+    ['break', 'record_group'],  # 寮突破记录
     ['break', 'person'],  # 切换模式
     ['break', 'group'],  # 切换模式
     ['break', 'break_failed'],  # 失败，折箭
@@ -50,6 +53,7 @@ break_pics = [
     ['break', 'over'],  # 0/ 30次或者6次机会用完了
     ['break', 'break_fight'],
     ['break', 'no_ticket'],
+    ['break', 'cd'],
 ]
 
 
@@ -111,7 +115,7 @@ class YysBreak(AutoGui):
             if key in ['search', 'break']:
                 self.display_msg('点击：{0}进入下一步'.format(key))
                 self.click_loc_one(loc)
-            elif key in ['record']:
+            elif key in ['record_person', 'record_group']:
                 self.display_msg('点击：{0}进入下一步'.format(key))
                 return True
             time.sleep(0.8)
@@ -133,27 +137,27 @@ class YysBreak(AutoGui):
 
         # 个人挑战的九宫格的 （x_top, y_top, w, h）
         self.person_boxes = [
-            [190, 150, 270, 90],
-            [190, 260, 270, 90],
-            [190, 370, 270, 90],
-            [480, 150, 270, 90],
-            [480, 260, 270, 90],
-            [480, 370, 270, 90],
-            [760, 150, 270, 90],
-            [760, 260, 270, 90],
-            [760, 370, 270, 90],
+            [140, 160, 270, 110],
+            [440, 160, 270, 110],
+            [740, 160, 270, 110],
+            [140, 280, 270, 110],
+            [440, 280, 270, 110],
+            [740, 280, 270, 110],
+            [140, 400, 270, 110],
+            [440, 400, 270, 110],
+            [740, 400, 270, 110],
         ]
 
         # 寮挑战的 2*4 格子
         self.group_boxes = [
-            [440, 150, 270, 90],
-            [440, 250, 270, 90],
-            [440, 350, 270, 90],
-            [440, 450, 270, 90],
-            [730, 150, 270, 90],
-            [730, 250, 270, 90],
-            [730, 350, 270, 90],
-            [730, 450, 270, 90],
+            [380, 150, 290, 110],
+            [380, 270, 290, 110],
+            [380, 390, 290, 110],
+            [380, 510, 290, 110],
+            [680, 150, 290, 110],
+            [680, 270, 290, 110],
+            [680, 390, 290, 110],
+            [680, 510, 290, 110],
         ]
 
         while self.stop is False:
@@ -184,13 +188,14 @@ class YysBreak(AutoGui):
 
             self.display_msg('状态切换：{0} -> {1}'.format(last_state, key))
             last_state = key
-            if key == 'record' and cur_type == 'group':
+            if key == 'record_group':
                 '''组队挑战'''
                 if self.locate_im(self.ims['over']):
                     '''当出现0/6时，说明已经全部挑战完了'''
                     already_fight_group = True
 
-                if already_fight_group:
+                if already_fight_group or cur_type == 'person':
+                    '''已经完成寮挑战，或者是初始界面就是在寮挑战时切换'''
                     loc_tmp = self.locate_im(self.ims['person'], im_yys)
                     if loc_tmp:
                         self.display_msg('点击：{0}进入下一步'.format('个人突破'))
@@ -225,7 +230,7 @@ class YysBreak(AutoGui):
                     self.display_msg(
                         '第{0}个怪都挑战失败了'.format(last_group_fight_index))
 
-            elif key == 'record' and cur_type == 'person':
+            elif key == 'record_person':
                 '''个人挑战，寮挑战未进行时切先换成寮挑战'''
                 if already_fight_group is False:
                     self.display_msg('先进行寮突破')
@@ -238,7 +243,7 @@ class YysBreak(AutoGui):
                         time.sleep(0.8)
                     continue
 
-                # 每次都都从0开始，保证
+                # 每次都都从0开始，保证，结束通过判断九宫格全部完成和有失败来处理
                 boxes = self.person_boxes
                 i = 0
                 for i in range(0, len(boxes)):
@@ -288,7 +293,7 @@ class YysBreak(AutoGui):
                     self.display_msg('{0}已经锁定'.format(key))
                     role_locked = True
 
-            elif key in ['victory', 'fail', 'award']:
+            elif key in ['victory', 'fail', 'award', 'cd']:
                 '''寮突破失败时继续挑战下一个，个人突破时每次都从第一个开始检查'''
                 self.display_msg('点击：{0}进入下一步'.format(key))
                 if key == 'victory':
@@ -296,6 +301,10 @@ class YysBreak(AutoGui):
                     self.display_msg('当前完成次数：{0}'.format(cur_loop_times))
                 elif cur_type == 'group' and key == 'fail':
                     last_group_fight_index += 1
+
+                if key == 'cd':
+                    already_fight_group = True
+                    self.display_msg('寮已经挑战完成')
 
                 random_dis = randint(-10, 10)
                 last_x = self.x_top + 955 + random_dis

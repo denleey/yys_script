@@ -54,7 +54,7 @@ class Activity(AutoGui):
         self.pics = activity_pics
         self.pics.extend(self.basic_pics)
         self.ims = screenshot.open_image_list(self.pics)
-        self.total_times = self.config.get('total_times', 20)
+        self.total_times = self.config.get('times', 100)
 
     def already_in_loop(self):
         for key in stages_loop:
@@ -104,7 +104,6 @@ class Activity(AutoGui):
                 self.display_msg('点击：{0}进入下一步'.format(key))
                 self.click_loc_one(loc)
                 self.move_uncover(loc)
-                stages_prepare.remove('main_return')
 
             elif key == 'mingdeng_clicked':
                 '''点击暝灯说明已经可以进入循环了'''
@@ -170,8 +169,7 @@ class Activity(AutoGui):
                 last_y = self.y_top + 530 + random_dis
                 self.click_loc_exact(last_x, last_y, 2, 0.2)  # 点击两下显示更快
                 time.sleep(0.5)
-                if key == 'award':
-                    time.sleep(0.5)
+                if key == 'victory':
                     cur_loop_times += 1
                     self.display_msg('当前进度：{0}/{1}'.format(
                         cur_loop_times, self.total_times))
